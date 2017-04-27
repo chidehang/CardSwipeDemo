@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="315dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="#ebebeb">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/xiaotu_50"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@mipmap/ic_remove"/>
+
+            <Button
+                android:id="@+id/btnLike"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="45dp"
+                android:background="@mipmap/ic_apply_recomm"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
