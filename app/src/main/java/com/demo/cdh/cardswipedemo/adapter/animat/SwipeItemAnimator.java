@@ -1,13 +1,14 @@
 package com.demo.cdh.cardswipedemo.adapter.animat;
 
-import android.support.annotation.NonNull;
-import android.support.v4.animation.AnimatorCompatHelper;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.support.v7.widget.SimpleItemAnimator;
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListener;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -151,6 +152,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
             mAdditionsList.add(additions);
             mPendingAdditions.clear();
             Runnable adder = new Runnable() {
+                @Override
                 public void run() {
                     for (RecyclerView.ViewHolder holder : additions) {
                         animateAddImpl(holder);
@@ -173,7 +175,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
     }
 
     @Override
-    public boolean animateRemove(final ViewHolder holder) {
+    public boolean animateRemove(final RecyclerView.ViewHolder holder) {
         resetAnimation(holder);
         mPendingRemovals.add(holder);
         return true;
@@ -185,10 +187,11 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
         mRemoveAnimations.add(holder);
         //设置偏移量---向左还是向右
         float translateX = 0;
-        if((int)view.getTag() == SWIPE_REMOVE_LEFT)
+        if((int)view.getTag() == SWIPE_REMOVE_LEFT) {
             translateX = -view.getWidth();
-        else if((int)view.getTag() == SWIPE_REMOVE_RIGHT)
+        } else if((int)view.getTag() == SWIPE_REMOVE_RIGHT) {
             translateX = view.getWidth();
+        }
         animation.setDuration(getRemoveDuration())
                 .translationX(translateX)
                 .alpha(0).setListener(new VpaListenerAdapter() {
@@ -211,7 +214,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
     }
 
     @Override
-    public boolean animateAdd(final ViewHolder holder) {
+    public boolean animateAdd(final RecyclerView.ViewHolder holder) {
         resetAnimation(holder);
         ViewCompat.setAlpha(holder.itemView, 0);
         mPendingAdditions.add(holder);
@@ -244,7 +247,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
     }
 
     @Override
-    public boolean animateMove(final ViewHolder holder, int fromX, int fromY,
+    public boolean animateMove(final RecyclerView.ViewHolder holder, int fromX, int fromY,
                                int toX, int toY) {
         final View view = holder.itemView;
         fromX += ViewCompat.getTranslationX(holder.itemView);
@@ -306,7 +309,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
     }
 
     @Override
-    public boolean animateChange(ViewHolder oldHolder, ViewHolder newHolder,
+    public boolean animateChange(RecyclerView.ViewHolder oldHolder, RecyclerView.ViewHolder newHolder,
                                  int fromX, int fromY, int toX, int toY) {
         if (oldHolder == newHolder) {
             // Don't know how to run change animations when the same view holder is re-used.
@@ -423,7 +426,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
     }
 
     @Override
-    public void endAnimation(ViewHolder item) {
+    public void endAnimation(RecyclerView.ViewHolder item) {
         final View view = item.itemView;
         // this will trigger end callback which should set properties to their target values.
         ViewCompat.animate(view).cancel();
@@ -509,7 +512,8 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
     }
 
     private void resetAnimation(RecyclerView.ViewHolder holder) {
-        AnimatorCompatHelper.clearInterpolator(holder.itemView);
+        TimeInterpolator mDefaultInterpolator = new ValueAnimator().getInterpolator();
+        holder.itemView.animate().setInterpolator(mDefaultInterpolator);
         endAnimation(holder);
     }
 
@@ -648,7 +652,7 @@ public class SwipeItemAnimator extends SimpleItemAnimator {
      * </ul>
      */
     @Override
-    public boolean canReuseUpdatedViewHolder(@NonNull ViewHolder viewHolder,
+    public boolean canReuseUpdatedViewHolder(@NonNull RecyclerView.ViewHolder viewHolder,
                                              @NonNull List<Object> payloads) {
         return !payloads.isEmpty() || super.canReuseUpdatedViewHolder(viewHolder, payloads);
     }

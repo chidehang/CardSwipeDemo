@@ -1,11 +1,12 @@
 package com.demo.cdh.cardswipedemo.adapter.base;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +49,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHo
 		holder.itemView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(onRecyclerItemClickListener != null)
+				if(onRecyclerItemClickListener != null) {
 					onRecyclerItemClickListener.onRecyclerItemClicked(BaseRecyclerAdapter.this, holder.itemView, position);
+				}
 			}
 		});
 		onBind(holder, mData.get(position), position);

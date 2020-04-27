@@ -2,11 +2,11 @@ package com.demo.cdh.cardswipedemo.adapter.callback;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.support.v7.widget.helper.ItemTouchHelper.SimpleCallback;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.demo.cdh.cardswipedemo.adapter.CardRecycleAdapter;
 import com.demo.cdh.cardswipedemo.adapter.manager.CardSwipeLayoutManager.CardConfig;
@@ -16,7 +16,7 @@ import com.demo.cdh.cardswipedemo.bean.CardBean;
  * Created by hang on 2017/4/27.
  */
 
-public class CardSwipeCallback extends SimpleCallback {
+public class CardSwipeCallback extends ItemTouchHelper.SimpleCallback {
 
     private Context context;
     private CardRecycleAdapter adapter;
@@ -55,8 +55,9 @@ public class CardSwipeCallback extends SimpleCallback {
         double distance = Math.sqrt(dX*dX + dX*dX);
         //计算比例
         double ratio = distance / maxDistance;
-        if(ratio > 1)
+        if(ratio > 1) {
             ratio = 1;
+        }
 
         //获取当前recyclerview显示item的个数，遍历计算偏移和缩放
         int count = recyclerView.getChildCount();

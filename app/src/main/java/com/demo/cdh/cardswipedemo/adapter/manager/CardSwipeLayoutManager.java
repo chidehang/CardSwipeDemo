@@ -1,10 +1,11 @@
 package com.demo.cdh.cardswipedemo.adapter.manager;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by hang on 2017/4/27.
@@ -23,8 +24,9 @@ public class CardSwipeLayoutManager extends RecyclerView.LayoutManager {
         //解除所有子view，添加到scrap集合缓存
         detachAndScrapAttachedViews(recycler);
         int count = Math.min(getItemCount(), CardConfig.CARD_SHOW_COUNT);
-        if(count < 1)
+        if(count < 1) {
             return;
+        }
         //遍历前count个itemView加载显示
         for (int i=0; i<count; i++) {
             View child = recycler.getViewForPosition(i);
